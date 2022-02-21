@@ -1,17 +1,38 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import UserLayout from "./components/layouts/UserLayout";
+import Login from "./components/pages/Login";
+import Register from "./components/pages/Register";
+
 export default function App() {
+  const theme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  });
   return (
-    <Router>
-      <Routes>
-        <Route path="app" component={DashBoardLayout}>
-          <Route path="home" component={Home} />
-          <Route path="add" component={Add} />
-        </Route>
-        {/* <Route path="user" component={UserLayout}>
-          <Route path="login" component={Login} />
-          <Route path="register" component={Register} />
-        </Route> */}
-      </Routes>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          {/* <Route path="app" element={DashBoardLayout}>
+            <Route path="home" element={Home} />
+            <Route path="add" element={Add} />
+          </Route> */}
+          <Route path="user" element={<UserLayout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+          </Route>
+          <Route path="/" element={<Navigate to="/user/login" />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }

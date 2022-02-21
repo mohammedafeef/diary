@@ -1,6 +1,4 @@
-import { styled } from "@mui/material";
-export default function DashBoardLayout(){
-    return(
-        
-    )
+import { ContentWrapper } from "./styles";
+export default function DashBoardLayout() {
+  return <ContentWrapper></ContentWrapper>;
 }
