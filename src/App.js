@@ -10,6 +10,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import UserLayout from "./components/layouts/UserLayout";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
+import DashBoardLayout from "./components/layouts/DashBoardLayout";
+import Home from "./components/pages/Home";
 
 export default function App() {
   const theme = createTheme({
@@ -22,10 +24,9 @@ export default function App() {
       <CssBaseline />
       <Router>
         <Routes>
-          {/* <Route path="app" element={DashBoardLayout}>
-            <Route path="home" element={Home} />
-            <Route path="add" element={Add} />
-          </Route> */}
+          <Route path="app" element={<DashBoardLayout />}>
+            <Route path="home" element={<Home />} />
+          </Route>
           <Route path="user" element={<UserLayout />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
