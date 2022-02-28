@@ -1,51 +1,109 @@
-import React from "react";
-import { ConfigWrapper, SubjectInput } from "./styles";
-import TextField from "@mui/material/TextField";
+import React, { useState } from "react";
+import {
+  ConfigWrapper,
+  SubjectInput,
+  ButtonWrapper,
+  EditorWrapper,
+} from "./styles";
+import { TextField, Button, ThemeProvider, createTheme } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import MUIRichTextEditor from "mui-rte";
-import { convertToRaw } from "draft-js";
+import { stateToHTML } from "draft-js-export-html";
+import { formatDateObj } from "../../utils/dateTimeHelper";
 
 export default function AddDiary() {
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
-  const [subject, setSubject] = React.useState("");
-  const [content, setContent] = React.useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [subject, setSubject] = useState("");
+  const [content, setContent] = useState("");
   const dateHandler = (date) => setSelectedDate(date);
   const subjectChangeHandler = (e) => setSubject(e.target.value);
-  const onEditorChange = (event) => {
-    const plainText = event.getCurrentContent().getPlainText(); // for plain text
-    const rteContent = convertToRaw(event.getCurrentContent()); // for rte content with text formating
-    rteContent && setContent(JSON.stringify(rteContent)); // store your rteContent to state
+  const onEditorChange = (event) => setContent(event);
+  const defaultTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  });
+  const submitHandler = () => {
+    const data = {
+      subject,
+      date: formatDateObj(selectedDate),
+      content: stateToHTML(content.getCurrentContent()),
+    };
+    console.log(data);
   };
+  Object.assign(defaultTheme, {
+    overrides: {
+      MUIRichTextEditor: {
+        root: {
+          width: "100%",
+          display: "flex",
+        },
+        container: {
+          margin: "8px 0px 0px 0px",
+          position: "relative",
+          fontSize: "1rem",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+        },
+        placeHolder: {
+          color: "#757575",
+          outline: "none",
+          position: "unset",
+          flex: "1 1 auto",
+        },
+      },
+    },
+  });
   return (
     <>
       <ConfigWrapper>
-        <SubjectInput value={subject} onChange={subjectChangeHandler} />
+        <SubjectInput
+          value={subject}
+          onChange={subjectChangeHandler}
+          label="Title"
+          fullWidth
+          multiline
+          rows={2}
+        />
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
-            label="Basic example"
+            label="Date"
             value={selectedDate}
             onChange={dateHandler}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
       </ConfigWrapper>
-      <MUIRichTextEditor
-        label="Your label"
-        controls={[
-          "title",
-          "bold",
-          "italic",
-          "underline",
-          "strikethrough",
-          "undo",
-          "redo",
-          "quote",
-        ]}
-        value={content}
-        onChange={onEditorChange}
-      />
+      <EditorWrapper>
+        <ThemeProvider theme={defaultTheme}>
+          <MUIRichTextEditor
+            label="Discribe your day..."
+            controls={[
+              "bold",
+              "italic",
+              "underline",
+              "strikethrough",
+              "quote",
+              "undo",
+              "redo",
+            ]}
+            onChange={onEditorChange}
+          />
+        </ThemeProvider>
+      </EditorWrapper>
+      <ButtonWrapper>
+        <Button
+          variant="contained"
+          color="success"
+          disabled={!content || !selectedDate || !subject}
+          onClick={submitHandler}
+        >
+          Add
+        </Button>
+      </ButtonWrapper>
     </>
   );
 }

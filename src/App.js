@@ -12,6 +12,8 @@ import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import DashBoardLayout from "./components/layouts/DashBoardLayout";
 import Home from "./components/pages/Home";
+import AddDiary from "./components/pages/AddDiary";
+import Diary from "./components/pages/Diary";
 
 export default function App() {
   const theme = createTheme({
@@ -26,6 +28,10 @@ export default function App() {
         <Routes>
           <Route path="app" element={<DashBoardLayout />}>
             <Route path="home" element={<Home />} />
+            <Route path="diary">
+              <Route path="add" element={<AddDiary />} />
+              <Route path=":id" element={<Diary />} />
+            </Route>
           </Route>
           <Route path="user" element={<UserLayout />}>
             <Route path="login" element={<Login />} />

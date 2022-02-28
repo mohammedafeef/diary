@@ -1,4 +1,5 @@
-import { styled, Box, Toolbar, AppBar } from "@mui/material";
+import { styled, Box, Toolbar, AppBar, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export const ContentWrapper = styled(Box)(() => ({
   width: "100vw",
@@ -48,3 +49,29 @@ export const Content = styled(Box)(({ theme }) => ({
     paddingTop: "calc(13% + 24px)",
   },
 }));
+
+export const Title = styled(Typography)(() => ({
+  textDecoration: "none",
+  color: "white",
+}));
+export const NavLink = styled(Link)(() => ({
+  textDecoration: "none",
+  color: "white",
+}));
+
+export const ButtonWrapper = styled("div")(() => ({
+  display: "flex",
+}));
+export const NavButton = styled(Box)({
+  fontSize: "14px",
+  fontWeight: "500",
+  color: "rgba(250,250,250)",
+  background: "rgba(56, 142, 60, 1)",
+  textDecoration: "none",
+  borderRadius: "8px",
+  padding: "5px 15px",
+  margin: "0px 15px",
+  "&:hover": {
+    backgroundColor: "rgba(56, 142, 60, .8)",
+  },
+});
