@@ -4,9 +4,9 @@ import {
   InputBase,
   alpha,
   Typography,
-  Card,
   Paper,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 export const SearchWrapper = styled(Box)(() => ({
   display: "flex",
   alignItems: "center",
@@ -63,17 +63,23 @@ export const DiaryWrapper = styled("div")(({ theme }) => ({
   },
 }));
 //Diary Card style
-
+export const CardLink = styled(Link)(({ theme }) => ({
+  textDecoration: "none",
+  width: `calc(20% - ${theme.spacing(2)})`,
+  margin: `${theme.spacing(1)} ${theme.spacing(1)}`,
+  height: "200px",
+  overflow: "hidden",
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
+}));
 export const DiaryCardWrapper = styled(Paper)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   padding: "20px",
   borderRadius: "15px",
-  width: `calc(20% - ${theme.spacing(2)})`,
-  margin: `${theme.spacing(1)} ${theme.spacing(1)}`,
-  [theme.breakpoints.down("sm")]: {
-    width: "100%",
-  },
+  width: "100%",
+  height: "100%",
 }));
 export const DiaryTitle = styled(Typography)(() => ({}));
 export const DiaryDate = styled(Typography)(({ theme }) => ({

@@ -21,6 +21,9 @@ export const Container = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   minWidth: "25%",
   minHeight: "30%",
+  [theme.breakpoints.down("sm")]: {
+    width: "85%",
+  },
 }));
 
 //app layout style

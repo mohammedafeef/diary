@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   ConfigWrapper,
   SubjectInput,
@@ -12,8 +12,13 @@ import DatePicker from "@mui/lab/DatePicker";
 import MUIRichTextEditor from "mui-rte";
 import { stateToHTML } from "draft-js-export-html";
 import { formatDateObj } from "../../utils/dateTimeHelper";
+import { addDiary } from "../../../service/diaryService";
+import loadingContext from "../../../context/loadingContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AddDiary() {
+  const navigate = useNavigate();
+  const { loaderToggler } = useContext(loadingContext);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
@@ -25,13 +30,20 @@ export default function AddDiary() {
       mode: "dark",
     },
   });
-  const submitHandler = () => {
-    const data = {
-      subject,
-      date: formatDateObj(selectedDate),
-      content: stateToHTML(content.getCurrentContent()),
-    };
-    console.log(data);
+  const submitHandler = async () => {
+    loaderToggler(true);
+    try {
+      const data = {
+        subject,
+        date: formatDateObj(selectedDate),
+        content: stateToHTML(content.getCurrentContent()),
+      };
+      await addDiary(data);
+      navigate("/app/home");
+    } catch (err) {
+      console.log(err.message);
+    }
+    loaderToggler(false);
   };
   Object.assign(defaultTheme, {
     overrides: {

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Title,
   SubmitButton,
@@ -7,12 +8,30 @@ import {
   LinkText,
 } from "../../utils/styles/userGlobalStyle";
 import TextInput from "../../utils/inputs/TextInput";
+import { login } from "../../../service/authService";
+import { storageKey } from "../../../const";
+import loadingContext from "../../../context/loadingContext";
 export default function Login() {
+  const navigate = useNavigate();
+  const { loaderToggler } = useContext(loadingContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
-  const loginHandler = () => {
-    console.log(email, password);
+  const loginHandler = async () => {
+    loaderToggler(true);
+    try {
+      const data = {
+        email,
+        password,
+      };
+      const user = await login(data);
+      localStorage.setItem(storageKey.token, user.token);
+      navigate("/app/home");
+    } catch (err) {
+      console.error(err.message);
+      setIsError("Invalid email or password");
+    }
+    loaderToggler(false);
   };
   return (
     <>

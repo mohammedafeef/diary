@@ -4,17 +4,22 @@ import {
   DiaryTitle,
   DiaryContent,
   DiaryDate,
+  CardLink
 } from "./styles";
 
-export default function DiaryCard() {
+export default function DiaryCard({ diary }) {
+  const { date, subject, content, _id } = diary;
   return (
-    <DiaryCardWrapper variant="outlined">
-      <DiaryTitle variant="h5">Marvelous day</DiaryTitle>
-      <DiaryDate variant="subtitle2">23/10/2003</DiaryDate>
-      <DiaryContent>
-        Today is an fantastic day in my leif brought so much things to my leif
-        tuday mei thru lube gona success...
-      </DiaryContent>
-    </DiaryCardWrapper>
+    <CardLink to={`/app/diary/${_id}`}>
+      <DiaryCardWrapper variant="outlined">
+        <DiaryTitle variant="h5">{subject}</DiaryTitle>
+        <DiaryDate variant="subtitle2">{date}</DiaryDate>
+        <DiaryContent
+          dangerouslySetInnerHTML={{
+            __html: content,
+          }}
+        />
+      </DiaryCardWrapper>
+    </CardLink>
   );
 }

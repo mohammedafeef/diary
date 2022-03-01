@@ -8,13 +8,16 @@ import {
   ButtonWrapper,
 } from "../styles";
 import { Button } from "@mui/material";
-import { useLocation, matchPath } from "react-router-dom";
+import { useLocation, matchPath, useNavigate } from "react-router-dom";
+import { storageKey } from "../../../const";
 export default function NavBar() {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const isActive = (path) =>
     path ? matchPath({ path, end: false }, pathname) : false;
   const logoutHandler = () => {
-    console.log("Logout successfully");
+    localStorage.removeItem(storageKey.token);
+    navigate("/user/login");
   };
   return (
     <AppContainer position="fixed">
