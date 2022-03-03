@@ -68,7 +68,7 @@ export default function Register() {
         disabled={!email || !password || !username}
         onClick={loginHandler}
       >
-        Login
+        Register
       </SubmitButton>
       <HelperText>
         Already have an account? <LinkText to="/user/login">Login</LinkText>

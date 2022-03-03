@@ -23,7 +23,7 @@ export default function NavBar() {
     <AppContainer position="fixed">
       <CustomToolbar>
         <NavLink to="/app/home">
-          <Title variant="h6">Diary</Title>
+          <Title variant="h6">Nanban</Title>
         </NavLink>
         <ButtonWrapper>
           <NavLink to="/app/diary/add">
